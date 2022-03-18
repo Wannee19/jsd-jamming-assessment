@@ -16,8 +16,7 @@ function SearchBar(props) {
       await props.searchSpotify(searchTerm);
     } catch (error) {
       console.warn(error);
-      const clientId =
-        "1dceb8831c90409b9872b61d0123e24aaf4094bc06e540edbc82403be27a055c";
+      const clientId = "af4094bc06e540edbc82403be27a055c";
       const currentUrl = window.location.href;
       window.location.href = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${currentUrl}`;
     }

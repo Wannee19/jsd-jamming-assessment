@@ -2,7 +2,7 @@
 const clientId = "af4094bc06e540edbc82403be27a055c";
 
 const redirectUri = "http://localhost:3000/";
-const fyUrl = `https://accounts.fy.com/authorize?response_type=token&scope=playlist-modify-public&client_id=${clientId}&redirect_uri=${redirectUri}`;
+const fyUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}`;
 let accessToken = undefined;
 let expiresIn = undefined;
 
