@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+//nimport React, { useState } from "react";
 import "./Playlist.css";
-import Track from "../Track/Track";
+import TrackList from "../TrackList/TrackList";
 
 function Playlist(props) {
-  // Handle( maintence) input value and pass event into updatePlaylistName function in App.js
   const handleNameChange = (e) => {
     props.onNameChange(e.target.value);
   };

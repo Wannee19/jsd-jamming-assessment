@@ -1,26 +1,15 @@
 import React from "react";
 import "./SearchResults.css";
 import Track from "../Track/Track";
+import TrackList from "../TrackList/TrackList";
 
-function searchResults(props) {
-    return ( <
-        div className = "SearchResults" >
-        <
-        h2 > Results < /h2>{" "} <
-        div className = "TrackList" > { " " } {
-            props.tracks.map((track) => {
-                return ( <
-                    Track key = { track.id }
-                    track = { track }
-                    trackActionCharacter = "+"
-                    handleTrackAction = { props.addTrackToPlaylist }
-                    />
-                );
-            })
-        } { " " } <
-        /div>{" "} <
-        /div>
-    );
+function SearchResults(props) {
+  return (
+    <div className="SearchResults">
+      <h2>Results</h2>
+      <TrackList tracks={props.searchResults} onAdd={props.onAdd} />
+    </div>
+  );
 }
 
 export default SearchResults;
