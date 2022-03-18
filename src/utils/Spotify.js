@@ -1,12 +1,12 @@
-// TODO: Get Client ID from https://developer.spotify.com/dashboard/ and put it here
-const clientId = 'YOUR SPOTIFY CLIENT ID';
+// TODO: Get Client ID from https://developer.fy.com/dashboard/ and put it here
+const clientId = "af4094bc06e540edbc82403be27a055c";
 
-const redirectUri = 'http://localhost:3000/';
-const spotifyUrl = `https://accounts.spotify.com/authorize?response_type=token&scope=playlist-modify-public&client_id=${clientId}&redirect_uri=${redirectUri}`;
+const redirectUri = "http://localhost:3000/";
+const fyUrl = `https://accounts.fy.com/authorize?response_type=token&scope=playlist-modify-public&client_id=${clientId}&redirect_uri=${redirectUri}`;
 let accessToken = undefined;
 let expiresIn = undefined;
 
-const Spotify = {
+const fy = {
   getAccessToken() {
     if (accessToken) {
       return accessToken;
@@ -16,15 +16,18 @@ const Spotify = {
     if (urlAccessToken && urlExpiresIn) {
       accessToken = urlAccessToken[1];
       expiresIn = urlExpiresIn[1];
-      window.setTimeout(() => (accessToken = ''), expiresIn * 1000);
-      window.history.pushState('Access Token', null, '/');
+      window.setTimeout(() => (accessToken = ""), expiresIn * 1000);
+      window.history.pushState("Access Token", null, "/");
     } else {
-      window.location = spotifyUrl;
+      window.location = fyUrl;
     }
   },
 
   async search(term) {
-    const searchUrl = `https://api.spotify.com/v1/search?type=track&q=${term.replace(' ', '%20')}`;
+    const searchUrl = `https://api.fy.com/v1/search?type=track&q=${term.replace(
+      " ",
+      "%20"
+    )}`;
     return fetch(searchUrl, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -47,11 +50,11 @@ const Spotify = {
 
   async savePlaylist(name, trackIds) {
     if (Array.isArray(trackIds) && trackIds.length) {
-      const createPlaylistUrl = `https://api.spotify.com/v1/me/playlists`;
+      const createPlaylistUrl = `https://api.fy.com/v1/me/playlists`;
       const response = await fetch(createPlaylistUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
@@ -62,15 +65,15 @@ const Spotify = {
       const jsonResponse = await response.json();
       const playlistId = jsonResponse.id;
       if (playlistId) {
-        const replacePlaylistTracksUrl = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+        const replacePlaylistTracksUrl = `https://api.fy.com/v1/playlists/${playlistId}/tracks`;
         await fetch(replacePlaylistTracksUrl, {
-          method: 'PUT',
+          method: "PUT",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify({
-            uris: trackIds.map((id) => 'spotify:track:'.concat(id)),
+            uris: trackIds.map((id) => "fy:track:".concat(id)),
           }),
         });
       }
@@ -78,4 +81,4 @@ const Spotify = {
   },
 };
 
-export default Spotify;
+export default fy;
