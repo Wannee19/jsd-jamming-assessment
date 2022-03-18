@@ -4,35 +4,26 @@ import "./Playlist.css";
 import Track from "../Track/Track";
 
 function Playlist(props) {
-  const [playlistName, setPlaylistName] = useState("New Playlist");
+  // Handle( maintence) input value and pass event into updatePlaylistName function in App.js
+  const handleNameChange = (e) => {
+    props.onNameChange(e.target.value);
+  };
 
-  async function handleSave() {
-    const trackIds = props.tracks.map((t) => t.id);
-    props.createSpotifyPlaylist(playlistName, trackIds);
-  }
   return (
     <div className="Playlist">
       <input
-        onChange={(e) => setPlaylistName(e.target.value)}
-        placeholder={playlistName}
+        placeholder="New Playlist"
+        onChange={handleNameChange}
+        value={props.playlistName}
       />{" "}
-      <div className="TrackList">
-        {" "}
-        {props.tracks.map((track) => {
-          return (
-            <Track
-              key={track.id}
-              track={track}
-              trackActionCharacter="-"
-              handleTrackAction={props.removeTrackFromPlaylist}
-            />
-          );
-        })}{" "}
-      </div>{" "}
-      <a className="Playlist-save" onClick={handleSave}>
-        {" "}
+      <TrackList
+        tracks={props.playlistTracks}
+        isRemoval={true}
+        onRemove={props.onRemove}
+      />{" "}
+      <button className="Playlist-save" onClick={props.onSave}>
         SAVE TO SPOTIFY{" "}
-      </a>{" "}
+      </button>{" "}
     </div>
   );
 }
